@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/workspace/eclipse_projects/TooTallNate-Java-WebSocket-7c3b223/dist/java_websocket.jar" sourcepath="D:/workspace/eclipse_projects/TooTallNate-Java-WebSocket-7c3b223/src"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/artoolkitplus.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/artoolkitplus-windows-x86_64.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/ffmpeg.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/ffmpeg-windows-x86_64.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/flycapture.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/flycapture-windows-x86_64.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/javacpp.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/javacv.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/libdc1394.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/libfreenect.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/libfreenect-windows-x86_64.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/opencv.jar" sourcepath="D:/workspace/external_jars/javacv/javacv-0.9-src/javacv/src/main/java/org"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/opencv-windows-x86_64.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/videoinput.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/external_jars/javacv/javacv-0.9-bin/javacv-bin/videoinput-windows-x86_64.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
