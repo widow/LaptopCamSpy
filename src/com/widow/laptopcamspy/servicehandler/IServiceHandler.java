@@ -1,4 +1,4 @@
-package com.idoweinstein.servicehandler;
+package com.widow.laptopcamspy.servicehandler;
 
 import org.java_websocket.WebSocket;
 
