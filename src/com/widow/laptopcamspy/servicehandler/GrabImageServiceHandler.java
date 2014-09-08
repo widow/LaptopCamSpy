@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 
@@ -30,36 +31,32 @@ public class GrabImageServiceHandler implements IServiceHandler {
 			public void run() {
 
 				try {
+					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+					IplImage image = null;
 					grabber.start();
 
+					while(t.isInterrupted() == false){
 
-					while(true){
-						//Load image img1 as IplImage
-						IplImage image = null;
 						image = grabber.grab();
-
 
 						//convert image to base64 string and send
 						BufferedImage buffImage = image.getBufferedImage();
-						ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 						ImageIO.write(buffImage, "jpg", outputStream);
 
-
 						ByteBuffer byteBuff = ByteBuffer.wrap(outputStream.toByteArray());
-//						System.out.println("sent "+ byteBuff.capacity()+ "bytes");
+						outputStream.reset();
+						//						System.out.println("sent "+ byteBuff.capacity()+ "bytes");
 						webSocket.send(byteBuff);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}finally{
 					try {
 						grabber.stop();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}	
 				}
@@ -70,10 +67,10 @@ public class GrabImageServiceHandler implements IServiceHandler {
 		break;
 		case "stop":
 			System.out.println("Stopping");
-			t.stop(); //TODO: stop thread in an elegant fashion and not by a deprecated method
+			t.interrupt();
 			break;
 		}
-
-
 	}
 }
+
+
