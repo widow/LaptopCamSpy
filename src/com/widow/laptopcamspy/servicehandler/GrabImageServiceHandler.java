@@ -51,15 +51,15 @@ public class GrabImageServiceHandler implements IServiceHandler {
 
 				try {
 					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-					recorder = FrameRecorder.createDefault("temp/output.avi", 320, 256);
-					recorder.start();
+					recorder = FrameRecorder.createDefault("temp/output.avi", 640, 480);
+//					recorder.start();
 					IplImage image = null;
 					grabber.start();
 
 					while(t.isInterrupted() == false){
 
 						image = grabber.grab();
-
+//						System.out.println(image.width()+ " w "+image.height()+" h " );
 						CvMemStorage storage = CvMemStorage.create();
 						CvSeq sign = cvHaarDetectObjects(
 								image,
@@ -72,7 +72,7 @@ public class GrabImageServiceHandler implements IServiceHandler {
 						cvClearMemStorage(storage);
 
 						int total_Faces = sign.total();	
-						System.out.println("Found total of: "+total_Faces + " faces");
+//						System.out.println("Found total of: "+total_Faces + " faces");
 						for(int i = 0; i < total_Faces; i++){
 							CvRect r = new CvRect(cvGetSeqElem(sign, i));
 							cvRectangle (
@@ -86,7 +86,7 @@ public class GrabImageServiceHandler implements IServiceHandler {
 
 						}
 						if(total_Faces > 0){
-							recorder.record(image);
+//							recorder.record(image);
 						}
 
 						//convert image to base64 string and send
@@ -96,7 +96,6 @@ public class GrabImageServiceHandler implements IServiceHandler {
 
 						ByteBuffer byteBuff = ByteBuffer.wrap(outputStream.toByteArray());
 						outputStream.reset();
-						//System.out.println("sent "+ byteBuff.capacity()+ "bytes");
 						webSocket.send(byteBuff);
 					}
 				} catch (Exception e) {
@@ -107,11 +106,9 @@ public class GrabImageServiceHandler implements IServiceHandler {
 					e.printStackTrace();
 				}finally{
 					try {
-						recorder.stop();
+//						recorder.stop();
 						grabber.stop();
 					} catch (Exception e) {
-						e.printStackTrace();
-					} catch (org.bytedeco.javacv.FrameRecorder.Exception e) {
 						e.printStackTrace();
 					}
 				}

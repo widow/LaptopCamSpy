@@ -38,3 +38,4 @@ Icon
 docs/backlog.ods
 *.class
 hs_err_pid*.log
+temp/*.*
