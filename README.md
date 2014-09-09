@@ -1,6 +1,13 @@
 LaptopCamSpy
 ============
 
-Grabing images from host and sending them over websoket to client
+Grabbing images from host and sending them over websocket to client
 
-1. Need to install OpenCV on host computer
+
+Dependencies
+------------
+* Install OpenCV on host computer (The one with the camera)
+* Setup instructions at: https://github.com/bytedeco/javacv
+* get the source and jar file for java-websocket here https://github.com/TooTallNate/Java-WebSocket (Jar file in the /dist folder)
+
+
