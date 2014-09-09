@@ -7,16 +7,14 @@ import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
 
-import org.bytedeco.javacpp.Pointer;
-import org.bytedeco.javacpp.opencv_core.CvMat;
 import org.bytedeco.javacpp.opencv_core.CvMemStorage;
 import org.bytedeco.javacpp.opencv_core.CvRect;
 import org.bytedeco.javacpp.opencv_core.CvSeq;
 import org.bytedeco.javacpp.opencv_core.IplImage;
-
 import org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.FrameGrabber.Exception;
+import org.bytedeco.javacv.FrameRecorder;
 import org.bytedeco.javacv.VideoInputFrameGrabber;
 import org.java_websocket.WebSocket;
 
@@ -33,10 +31,11 @@ import static org.bytedeco.javacpp.opencv_objdetect.*;
 public class GrabImageServiceHandler implements IServiceHandler {
 
 
-	public static final String XML_FILE = "resources/haarcascade_frontalface_default.xml";
-	Thread t;
-	FrameGrabber grabber = new VideoInputFrameGrabber(0);
-	final CvHaarClassifierCascade cascade = new CvHaarClassifierCascade(cvLoad(XML_FILE));
+	private static final String XML_FILE = "resources/haarcascade_frontalface_default.xml";
+	private Thread t;
+	private FrameGrabber grabber = new VideoInputFrameGrabber(0);
+	private CvHaarClassifierCascade cascade = new CvHaarClassifierCascade(cvLoad(XML_FILE));
+	private FrameRecorder recorder;
 
 	@Override
 	public void handleService(final WebSocket webSocket, String message) {
@@ -44,6 +43,7 @@ public class GrabImageServiceHandler implements IServiceHandler {
 		switch (message){
 		case "start":;
 		System.out.println("Starting...");
+
 		t = new Thread(new Runnable() {
 
 			@Override
@@ -51,6 +51,8 @@ public class GrabImageServiceHandler implements IServiceHandler {
 
 				try {
 					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+					recorder = FrameRecorder.createDefault("temp/output.avi", 320, 256);
+					recorder.start();
 					IplImage image = null;
 					grabber.start();
 
@@ -83,6 +85,9 @@ public class GrabImageServiceHandler implements IServiceHandler {
 									0);
 
 						}
+						if(total_Faces > 0){
+							recorder.record(image);
+						}
 
 						//convert image to base64 string and send
 						BufferedImage buffImage = image.getBufferedImage();
@@ -98,10 +103,15 @@ public class GrabImageServiceHandler implements IServiceHandler {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
+				} catch (org.bytedeco.javacv.FrameRecorder.Exception e) {
+					e.printStackTrace();
 				}finally{
 					try {
+						recorder.stop();
 						grabber.stop();
 					} catch (Exception e) {
+						e.printStackTrace();
+					} catch (org.bytedeco.javacv.FrameRecorder.Exception e) {
 						e.printStackTrace();
 					}
 				}
